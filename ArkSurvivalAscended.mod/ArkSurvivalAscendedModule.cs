@@ -96,7 +96,6 @@ public sealed class ArkSurvivalAscendedModule : IGameServerModule, IManifestBack
         WriteIniFiles(instance);
 
         var arguments = ModuleLaunchArgumentBuilder.Build(Manifest.GetDefaultArguments(), BuildLaunchSettings(instance));
-        arguments = AppendLaunchUrlOptions(arguments, BuildClusterUrlOptions(instance));
 
         var modArguments = BuildModArguments(instance);
         if (!string.IsNullOrWhiteSpace(modArguments))
@@ -112,22 +111,6 @@ public sealed class ArkSurvivalAscendedModule : IGameServerModule, IManifestBack
             arguments = string.IsNullOrWhiteSpace(arguments)
                 ? battleEyeArguments
                 : $"{arguments} {battleEyeArguments}";
-        }
-
-        var serverPlatformArguments = BuildServerPlatformArguments(instance);
-        if (!string.IsNullOrWhiteSpace(serverPlatformArguments))
-        {
-            arguments = string.IsNullOrWhiteSpace(arguments)
-                ? serverPlatformArguments
-                : $"{arguments} {serverPlatformArguments}";
-        }
-
-        var clusterArguments = BuildClusterArguments(instance);
-        if (!string.IsNullOrWhiteSpace(clusterArguments))
-        {
-            arguments = string.IsNullOrWhiteSpace(arguments)
-                ? clusterArguments
-                : $"{arguments} {clusterArguments}";
         }
 
         return Task.FromResult(new ProcessStartInfo
@@ -391,62 +374,6 @@ public sealed class ArkSurvivalAscendedModule : IGameServerModule, IManifestBack
         return GetBool(instance, "battleye.enabled", true)
             ? string.Empty
             : "-NoBattlEye";
-    }
-
-    private static string BuildServerPlatformArguments(ServerInstance instance)
-    {
-        return GetBool(instance, "server.crossplay")
-            ? "-ServerPlatform=ALL"
-            : string.Empty;
-    }
-
-    private static string BuildClusterArguments(ServerInstance instance)
-    {
-        if (!GetBool(instance, "cluster.enabled"))
-        {
-            return string.Empty;
-        }
-
-        var parts = new List<string>();
-        var clusterId = GetSetting(instance, "cluster.id", "WindowsGSHCluster");
-        if (!string.IsNullOrWhiteSpace(clusterId))
-        {
-            parts.Add("-clusterid=" + WindowsCommandLineEscaper.Quote(clusterId.Trim()));
-        }
-
-        var clusterDirectory = GetSetting(instance, "cluster.directory", "");
-        if (!string.IsNullOrWhiteSpace(clusterDirectory))
-        {
-            parts.Add("-ClusterDirOverride=" + WindowsCommandLineEscaper.Quote(clusterDirectory.Trim()));
-        }
-
-        return string.Join(' ', parts);
-    }
-
-    private static string BuildClusterUrlOptions(ServerInstance instance)
-    {
-        if (!GetBool(instance, "cluster.enabled"))
-        {
-            return string.Empty;
-        }
-
-        var altSaveDirectoryName = GetSetting(instance, "cluster.altSaveDirectoryName", "");
-        return string.IsNullOrWhiteSpace(altSaveDirectoryName)
-            ? string.Empty
-            : "?AltSaveDirectoryName=" + altSaveDirectoryName.Trim();
-    }
-
-    private static string AppendLaunchUrlOptions(string arguments, string urlOptions)
-    {
-        if (string.IsNullOrWhiteSpace(arguments) || string.IsNullOrWhiteSpace(urlOptions))
-        {
-            return arguments;
-        }
-
-        var firstSpace = arguments.IndexOf(' ');
-        return firstSpace < 0
-            ? arguments + urlOptions
-            : arguments[..firstSpace] + urlOptions + arguments[firstSpace..];
     }
 
     private static IReadOnlyDictionary<string, object?> BuildLaunchSettings(ServerInstance instance)
