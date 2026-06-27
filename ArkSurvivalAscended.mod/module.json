@@ -1,0 +1,1444 @@
+{
+  "id": "ark-survival-ascended",
+  "name": "Ark Survival Ascended Dedicated Server",
+  "version": "1.21",
+  "author": "Shenniko",
+  "description": "WindowsGSH module for installing, configuring, launching, and backing up an ARK: Survival Ascended dedicated server.",
+  "url": "https://github.com/WindowsGSH/WindowsGSH.ArkSurvivalAscended",
+  "homepage": "https://ark.wiki.gg/wiki/Dedicated_server_setup",
+  "repository": "https://github.com/WindowsGSH/WindowsGSH.ArkSurvivalAscended",
+  "sourceUrl": "https://github.com/WindowsGSH/WindowsGSH.ArkSurvivalAscended",
+  "color": "#1E8449",
+  "moduleApiVersion": "1.0",
+  "minimumWindowsGshVersion": "0.1.0",
+  "type": "csharp",
+  "entry": "WindowsGSH.Modules.ArkSurvivalAscended.ArkSurvivalAscendedModule",
+  "platform": "windows",
+  "source": "https://github.com/WindowsGSH/WindowsGSH.ArkSurvivalAscended",
+  "steam": {
+    "appId": "2430930",
+    "anonymous": true,
+    "validate": true
+  },
+  "entryPoints": {
+    "start": "ShooterGame\\Binaries\\Win64\\ArkAscendedServer.exe",
+    "processNames": [
+      "ArkAscendedServer"
+    ]
+  },
+  "runtime": {
+    "allowsEmbeddedConsole": false,
+    "consoleStrategy": "LogTailOnly",
+    "portIncrements": 2,
+    "queryProtocol": "process",
+    "defaultArguments": "{server.map}?listen?SessionName={quote:server.name}?MultiHome={network.ip}?Port={network.port}?QueryPort={network.queryPort}?MaxPlayers={server.maxPlayers}{?rcon.enabled:?RCONEnabled=True?RCONPort={rcon.port}} {server.additionalArguments} -WinLiveMaxPlayers={server.maxPlayers}",
+    "logPath": "ShooterGame\\Saved\\Logs\\ShooterGame.log",
+    "stop": {
+      "strategy": "closeWindow",
+      "waitMilliseconds": 2000,
+      "killAfterTimeout": true
+    }
+  },
+  "capabilities": {
+    "directConnection": true
+  },
+  "import": {
+    "windowsGsm": {
+      "aliases": [
+        "Ark Survival Ascended Dedicated Server",
+        "WindowsGSM.ArkSurvivalAscended",
+        "ArkSurvivalAscended"
+      ],
+      "installFolder": "serverfiles",
+      "settings": {
+        "servername": "server.name",
+        "serverip": "network.ip",
+        "serverport": "network.port",
+        "serverqueryport": "network.queryPort",
+        "rconport": "rcon.port",
+        "servermap": "server.map",
+        "servermaxplayer": "server.maxPlayers",
+        "serverparam": "server.additionalArguments",
+        "rconpassword": "rcon.password",
+        "gslt": "steam.gslt"
+      }
+    }
+  },
+  "configFields": [
+    {
+      "key": "server.name",
+      "label": "Server Name",
+      "type": "Text",
+      "defaultValue": "Ark Survival Ascended Dedicated Server",
+      "required": true,
+      "group": "Server",
+      "restartRequired": true
+    },
+    {
+      "key": "network.ip",
+      "label": "Server IP",
+      "type": "Text",
+      "defaultValue": "0.0.0.0",
+      "group": "Network",
+      "restartRequired": true
+    },
+    {
+      "key": "network.port",
+      "label": "Server Port",
+      "type": "Port",
+      "defaultValue": 7777,
+      "required": true,
+      "minimum": 1,
+      "maximum": 65535,
+      "group": "Network",
+      "restartRequired": true
+    },
+    {
+      "key": "network.queryPort",
+      "label": "Query Port",
+      "type": "Port",
+      "defaultValue": 27015,
+      "minimum": 1,
+      "maximum": 65535,
+      "group": "Network",
+      "restartRequired": true
+    },
+    {
+      "key": "server.map",
+      "label": "Start Map / World",
+      "type": "Text",
+      "defaultValue": "TheIsland_WP",
+      "group": "Server",
+      "restartRequired": true
+    },
+    {
+      "key": "server.maxPlayers",
+      "label": "Max Players",
+      "type": "Number",
+      "defaultValue": 40,
+      "minimum": 1,
+      "maximum": 1000,
+      "group": "Server",
+      "restartRequired": true
+    },
+    {
+      "key": "server.password",
+      "label": "Join Password",
+      "type": "Password",
+      "defaultValue": "",
+      "group": "Server",
+      "restartRequired": true
+    },
+    {
+      "key": "server.adminPassword",
+      "label": "Admin Password",
+      "type": "Password",
+      "defaultValue": "",
+      "group": "Server",
+      "restartRequired": true
+    },
+    {
+      "key": "rcon.enabled",
+      "label": "Enable RCON",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "RCON",
+      "restartRequired": true
+    },
+    {
+      "key": "rcon.port",
+      "label": "RCON Port",
+      "type": "Port",
+      "defaultValue": 27020,
+      "minimum": 1,
+      "maximum": 65535,
+      "group": "RCON",
+      "restartRequired": true,
+      "visibleWhen": {
+        "key": "rcon.enabled",
+        "isTruthy": true
+      }
+    },
+    {
+      "key": "server.mods",
+      "label": "CurseForge Mod IDs",
+      "type": "Text",
+      "defaultValue": "",
+      "description": "Comma-separated CurseForge mod IDs. WindowsGSH passes these with -mods=\"id,id\".",
+      "group": "Mods",
+      "restartRequired": true
+    },
+    {
+      "key": "server.xpMultiplier",
+      "label": "XP Multiplier",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "Rates",
+      "restartRequired": true
+    },
+    {
+      "key": "server.killXpMultiplier",
+      "label": "Kill XP Multiplier",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "XP",
+      "restartRequired": true
+    },
+    {
+      "key": "server.harvestXpMultiplier",
+      "label": "Harvest XP Multiplier",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "XP",
+      "restartRequired": true
+    },
+    {
+      "key": "server.craftXpMultiplier",
+      "label": "Craft XP Multiplier",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "XP",
+      "restartRequired": true
+    },
+    {
+      "key": "server.genericXpMultiplier",
+      "label": "Generic XP Multiplier",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "XP",
+      "restartRequired": true
+    },
+    {
+      "key": "server.specialXpMultiplier",
+      "label": "Special XP Multiplier",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "XP",
+      "restartRequired": true
+    },
+    {
+      "key": "server.explorerNoteXpMultiplier",
+      "label": "Explorer Note XP Multiplier",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "XP",
+      "restartRequired": true
+    },
+    {
+      "key": "server.bossKillXpMultiplier",
+      "label": "Boss Kill XP Multiplier",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "XP",
+      "restartRequired": true
+    },
+    {
+      "key": "server.alphaKillXpMultiplier",
+      "label": "Alpha Kill XP Multiplier",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "XP",
+      "restartRequired": true
+    },
+    {
+      "key": "server.wildKillXpMultiplier",
+      "label": "Wild Kill XP Multiplier",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "XP",
+      "restartRequired": true
+    },
+    {
+      "key": "server.caveKillXpMultiplier",
+      "label": "Cave Kill XP Multiplier",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "XP",
+      "restartRequired": true
+    },
+    {
+      "key": "server.tamedKillXpMultiplier",
+      "label": "Tamed Kill XP Multiplier",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "XP",
+      "restartRequired": true
+    },
+    {
+      "key": "server.unclaimedKillXpMultiplier",
+      "label": "Unclaimed Kill XP Multiplier",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "XP",
+      "restartRequired": true
+    },
+    {
+      "key": "server.harvestMultiplier",
+      "label": "Harvest Multiplier",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "Rates",
+      "restartRequired": true
+    },
+    {
+      "key": "server.harvestHealthMultiplier",
+      "label": "Harvest Health Multiplier",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "Rates",
+      "restartRequired": true
+    },
+    {
+      "key": "server.tamingMultiplier",
+      "label": "Taming Multiplier",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "Rates",
+      "restartRequired": true
+    },
+    {
+      "key": "server.itemStackSizeMultiplier",
+      "label": "Item Stack Size Multiplier",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "Rates",
+      "restartRequired": true
+    },
+    {
+      "key": "server.matingIntervalMultiplier",
+      "label": "Mating Interval",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "Rates",
+      "restartRequired": true
+    },
+    {
+      "key": "server.babyImprintingStatScaleMultiplier",
+      "label": "Baby Imprint Stat Scale",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "Breeding",
+      "restartRequired": true
+    },
+    {
+      "key": "server.babyCuddleIntervalMultiplier",
+      "label": "Baby Cuddle Interval",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "Breeding",
+      "restartRequired": true
+    },
+    {
+      "key": "server.babyCuddleGracePeriodMultiplier",
+      "label": "Baby Cuddle Grace Period",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "Breeding",
+      "restartRequired": true
+    },
+    {
+      "key": "server.babyCuddleLoseImprintQualitySpeedMultiplier",
+      "label": "Baby Cuddle Lose Imprint Speed",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "Breeding",
+      "restartRequired": true
+    },
+    {
+      "key": "server.babyFoodConsumptionSpeedMultiplier",
+      "label": "Baby Food Consumption",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "Breeding",
+      "restartRequired": true
+    },
+    {
+      "key": "server.babyImprintAmountMultiplier",
+      "label": "Baby Imprint Amount",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "Breeding",
+      "restartRequired": true
+    },
+    {
+      "key": "server.eggHatchMultiplier",
+      "label": "Egg Hatch Speed",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "Rates",
+      "restartRequired": true
+    },
+    {
+      "key": "server.babyMatureMultiplier",
+      "label": "Baby Mature Speed",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "Rates",
+      "restartRequired": true
+    },
+    {
+      "key": "server.dayCycleSpeed",
+      "label": "Day Cycle Speed",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "World",
+      "restartRequired": true
+    },
+    {
+      "key": "server.nightTimeSpeed",
+      "label": "Night Time Speed",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "World",
+      "restartRequired": true
+    },
+    {
+      "key": "server.difficultyOffset",
+      "label": "Difficulty Offset",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "World",
+      "restartRequired": true
+    },
+    {
+      "key": "server.officialDifficulty",
+      "label": "Official Difficulty",
+      "type": "Number",
+      "defaultValue": 5,
+      "minimum": 0,
+      "group": "World",
+      "restartRequired": true
+    },
+    {
+      "key": "server.resourceRespawnMultiplier",
+      "label": "Resource Respawn Period",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "World",
+      "restartRequired": true
+    },
+    {
+      "key": "server.cropGrowthSpeedMultiplier",
+      "label": "Crop Growth Speed",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "World",
+      "restartRequired": true
+    },
+    {
+      "key": "server.cropDecaySpeedMultiplier",
+      "label": "Crop Decay Speed",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "World",
+      "restartRequired": true
+    },
+    {
+      "key": "server.globalSpoilingTimeMultiplier",
+      "label": "Spoiling Time Multiplier",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "World",
+      "restartRequired": true
+    },
+    {
+      "key": "server.globalItemDecompositionTimeMultiplier",
+      "label": "Item Decomposition Time",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "World",
+      "restartRequired": true
+    },
+    {
+      "key": "server.globalCorpseDecompositionTimeMultiplier",
+      "label": "Corpse Decomposition Time",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "World",
+      "restartRequired": true
+    },
+    {
+      "key": "server.fuelConsumptionIntervalMultiplier",
+      "label": "Fuel Consumption Interval",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "World",
+      "restartRequired": true
+    },
+    {
+      "key": "server.customRecipeEffectivenessMultiplier",
+      "label": "Custom Recipe Effectiveness",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "World",
+      "restartRequired": true
+    },
+    {
+      "key": "server.customRecipeSkillMultiplier",
+      "label": "Custom Recipe Skill",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "World",
+      "restartRequired": true
+    },
+    {
+      "key": "server.supplyCrateLootQualityMultiplier",
+      "label": "Supply Crate Loot Quality",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "World",
+      "restartRequired": true
+    },
+    {
+      "key": "server.fishingLootQualityMultiplier",
+      "label": "Fishing Loot Quality",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "World",
+      "restartRequired": true
+    },
+    {
+      "key": "server.craftingSkillBonusMultiplier",
+      "label": "Crafting Skill Bonus",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "World",
+      "restartRequired": true
+    },
+    {
+      "key": "server.autoSavePeriodMinutes",
+      "label": "Auto Save Period Minutes",
+      "type": "Number",
+      "defaultValue": 15,
+      "minimum": 0,
+      "group": "World",
+      "restartRequired": true
+    },
+    {
+      "key": "server.kickIdlePlayersPeriod",
+      "label": "Kick Idle Players Seconds",
+      "type": "Number",
+      "defaultValue": 3600,
+      "minimum": 0,
+      "group": "General",
+      "restartRequired": true
+    },
+    {
+      "key": "server.rconServerGameLogBuffer",
+      "label": "RCON Game Log Buffer",
+      "type": "Number",
+      "defaultValue": 600,
+      "minimum": 0,
+      "group": "General",
+      "restartRequired": true
+    },
+    {
+      "key": "server.maxTamedDinos",
+      "label": "Max Tamed Dinos",
+      "type": "Number",
+      "defaultValue": 5000,
+      "minimum": 0,
+      "group": "World",
+      "restartRequired": true
+    },
+    {
+      "key": "server.maxStructuresInRange",
+      "label": "Max Structures In Range",
+      "type": "Number",
+      "defaultValue": 10500,
+      "minimum": 0,
+      "group": "Structures",
+      "restartRequired": true
+    },
+    {
+      "key": "server.perPlatformMaxStructuresMultiplier",
+      "label": "Platform Structure Limit Multiplier",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "Structures",
+      "restartRequired": true
+    },
+    {
+      "key": "server.maxPlayersInTribe",
+      "label": "Max Players In Tribe",
+      "type": "Number",
+      "defaultValue": 0,
+      "minimum": 0,
+      "group": "World",
+      "restartRequired": true
+    },
+    {
+      "key": "server.autoPveTimer",
+      "label": "Enable Auto PvE Timer",
+      "type": "Boolean",
+      "defaultValue": false,
+      "description": "Enables ARK's scheduled PvE/PvP timer using bAutoPvETimer.",
+      "group": "PvE/PvP Schedule",
+      "restartRequired": true
+    },
+    {
+      "key": "server.autoPveUseSystemTime",
+      "label": "Use System Time",
+      "type": "Boolean",
+      "defaultValue": true,
+      "description": "Uses real server clock time for the Auto PvE timer.",
+      "group": "PvE/PvP Schedule",
+      "restartRequired": true,
+      "visibleWhen": {
+        "key": "server.autoPveTimer",
+        "isTruthy": true
+      }
+    },
+    {
+      "key": "server.autoPveStartTimeSeconds",
+      "label": "PvE Start Time Seconds",
+      "type": "Number",
+      "defaultValue": 0,
+      "minimum": 0,
+      "maximum": 86400,
+      "description": "Seconds after midnight when PvE mode starts. Example: 79200 is 22:00.",
+      "group": "PvE/PvP Schedule",
+      "restartRequired": true,
+      "visibleWhen": {
+        "key": "server.autoPveTimer",
+        "isTruthy": true
+      }
+    },
+    {
+      "key": "server.autoPveStopTimeSeconds",
+      "label": "PvE Stop Time Seconds",
+      "type": "Number",
+      "defaultValue": 0,
+      "minimum": 0,
+      "maximum": 86400,
+      "description": "Seconds after midnight when PvE mode stops and PvP resumes. Example: 57600 is 16:00.",
+      "group": "PvE/PvP Schedule",
+      "restartRequired": true,
+      "visibleWhen": {
+        "key": "server.autoPveTimer",
+        "isTruthy": true
+      }
+    },
+    {
+      "key": "server.pvpZoneStructureDamageMultiplier",
+      "label": "PvP Zone Structure Damage",
+      "type": "Number",
+      "defaultValue": 6,
+      "minimum": 0,
+      "group": "PvE/PvP Schedule",
+      "restartRequired": true
+    },
+    {
+      "key": "server.increasePvpRespawnInterval",
+      "label": "Increase PvP Respawn Interval",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "PvE/PvP Schedule",
+      "restartRequired": true
+    },
+    {
+      "key": "server.increasePvpRespawnIntervalCheckPeriod",
+      "label": "PvP Respawn Check Period",
+      "type": "Number",
+      "defaultValue": 300,
+      "minimum": 0,
+      "group": "PvE/PvP Schedule",
+      "restartRequired": true,
+      "visibleWhen": {
+        "key": "server.increasePvpRespawnInterval",
+        "isTruthy": true
+      }
+    },
+    {
+      "key": "server.increasePvpRespawnIntervalMultiplier",
+      "label": "PvP Respawn Multiplier",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "PvE/PvP Schedule",
+      "restartRequired": true,
+      "visibleWhen": {
+        "key": "server.increasePvpRespawnInterval",
+        "isTruthy": true
+      }
+    },
+    {
+      "key": "server.increasePvpRespawnIntervalBaseAmount",
+      "label": "PvP Respawn Base Amount",
+      "type": "Number",
+      "defaultValue": 60,
+      "minimum": 0,
+      "group": "PvE/PvP Schedule",
+      "restartRequired": true,
+      "visibleWhen": {
+        "key": "server.increasePvpRespawnInterval",
+        "isTruthy": true
+      }
+    },
+    {
+      "key": "server.playerWaterDrainMultiplier",
+      "label": "Player Water Drain",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "Player",
+      "restartRequired": true
+    },
+    {
+      "key": "server.playerFoodDrainMultiplier",
+      "label": "Player Food Drain",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "Player",
+      "restartRequired": true
+    },
+    {
+      "key": "server.playerStaminaDrainMultiplier",
+      "label": "Player Stamina Drain",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "Player",
+      "restartRequired": true
+    },
+    {
+      "key": "server.playerHealthRecoveryMultiplier",
+      "label": "Player Health Recovery",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "Player",
+      "restartRequired": true
+    },
+    {
+      "key": "server.playerDamageMultiplier",
+      "label": "Player Damage",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "Player",
+      "restartRequired": true
+    },
+    {
+      "key": "server.playerResistanceMultiplier",
+      "label": "Player Resistance",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "Player",
+      "restartRequired": true
+    },
+    {
+      "key": "server.playerHarvestingDamageMultiplier",
+      "label": "Player Harvesting Damage",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "Player",
+      "restartRequired": true
+    },
+    {
+      "key": "server.dinoFoodDrainMultiplier",
+      "label": "Dino Food Drain",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "Dino",
+      "restartRequired": true
+    },
+    {
+      "key": "server.dinoDamageMultiplier",
+      "label": "Dino Damage",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "Dino",
+      "restartRequired": true
+    },
+    {
+      "key": "server.dinoResistanceMultiplier",
+      "label": "Dino Resistance",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "Dino",
+      "restartRequired": true
+    },
+    {
+      "key": "server.dinoStaminaDrainMultiplier",
+      "label": "Dino Stamina Drain",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "Dino",
+      "restartRequired": true
+    },
+    {
+      "key": "server.dinoHealthRecoveryMultiplier",
+      "label": "Dino Health Recovery",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "Dino",
+      "restartRequired": true
+    },
+    {
+      "key": "server.dinoHarvestingDamageMultiplier",
+      "label": "Dino Harvesting Damage",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "Dino",
+      "restartRequired": true
+    },
+    {
+      "key": "server.structureResistanceMultiplier",
+      "label": "Structure Resistance",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "Rules",
+      "restartRequired": true
+    },
+    {
+      "key": "server.pve",
+      "label": "PvE Server",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Rules",
+      "restartRequired": true
+    },
+    {
+      "key": "server.allowThirdPerson",
+      "label": "Allow Third Person",
+      "type": "Boolean",
+      "defaultValue": true,
+      "group": "Rules",
+      "restartRequired": true
+    },
+    {
+      "key": "server.showMapPlayerLocation",
+      "label": "Show Player Location",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Rules",
+      "restartRequired": true
+    },
+    {
+      "key": "server.disableWeatherFog",
+      "label": "Disable Weather Fog",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Rules",
+      "restartRequired": true
+    },
+    {
+      "key": "server.crosshair",
+      "label": "Enable Crosshair",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Rules",
+      "restartRequired": true
+    },
+    {
+      "key": "server.alwaysAllowStructurePickup",
+      "label": "Always Allow Structure Pickup",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Structures",
+      "restartRequired": true
+    },
+    {
+      "key": "server.structurePickupTimeAfterPlacement",
+      "label": "Structure Pickup Time After Placement",
+      "type": "Number",
+      "defaultValue": 30,
+      "minimum": 0,
+      "group": "Structures",
+      "restartRequired": true
+    },
+    {
+      "key": "server.structurePickupHoldDuration",
+      "label": "Structure Pickup Hold Duration",
+      "type": "Number",
+      "defaultValue": 0.5,
+      "minimum": 0,
+      "group": "Structures",
+      "restartRequired": true
+    },
+    {
+      "key": "server.autoDestroyDecayedDinos",
+      "label": "Auto Destroy Decayed Dinos",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Structures",
+      "restartRequired": true
+    },
+    {
+      "key": "server.autoDestroyOldStructuresMultiplier",
+      "label": "Auto Destroy Old Structures Multiplier",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "Structures",
+      "restartRequired": true
+    },
+    {
+      "key": "server.allowFlyerCarryPve",
+      "label": "Allow Flyer Carry PvE",
+      "type": "Boolean",
+      "defaultValue": true,
+      "group": "Rules",
+      "restartRequired": true
+    },
+    {
+      "key": "server.allowAnyoneBabyImprintCuddle",
+      "label": "Anyone Can Imprint Cuddle",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Breeding",
+      "restartRequired": true
+    },
+    {
+      "key": "server.disableImprintDinoBuff",
+      "label": "Disable Imprint Dino Buff",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Breeding",
+      "restartRequired": true
+    },
+    {
+      "key": "server.showFloatingDamageText",
+      "label": "Show Floating Damage Text",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Rules",
+      "restartRequired": true
+    },
+    {
+      "key": "server.allowHitMarkers",
+      "label": "Allow Hit Markers",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Rules",
+      "restartRequired": true
+    },
+    {
+      "key": "server.allowRaidDinoFeeding",
+      "label": "Allow Raid Dino Feeding",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Rules",
+      "restartRequired": true
+    },
+    {
+      "key": "server.preventOfflinePvp",
+      "label": "Prevent Offline PvP",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Rules",
+      "restartRequired": true
+    },
+    {
+      "key": "server.preventOfflinePvpInterval",
+      "label": "Offline PvP Interval",
+      "type": "Number",
+      "defaultValue": 0,
+      "minimum": 0,
+      "group": "Rules",
+      "restartRequired": true,
+      "visibleWhen": {
+        "key": "server.preventOfflinePvp",
+        "isTruthy": true
+      }
+    },
+    {
+      "key": "server.preventTribeAlliances",
+      "label": "Prevent Tribe Alliances",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Rules",
+      "restartRequired": true
+    },
+    {
+      "key": "server.pvpDinoDecay",
+      "label": "PvP Dino Decay",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Rules",
+      "restartRequired": true
+    },
+    {
+      "key": "server.pvpStructureDecay",
+      "label": "PvP Structure Decay",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Rules",
+      "restartRequired": true
+    },
+    {
+      "key": "server.pveDinoDecayPeriodMultiplier",
+      "label": "PvE Dino Decay Period",
+      "type": "Number",
+      "defaultValue": 1,
+      "minimum": 0,
+      "group": "Rules",
+      "restartRequired": true
+    },
+    {
+      "key": "server.pveAllowStructuresAtSupplyDrops",
+      "label": "PvE Structures At Supply Drops",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Rules",
+      "restartRequired": true
+    },
+    {
+      "key": "server.disableFriendlyFire",
+      "label": "Disable Friendly Fire",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Rules",
+      "restartRequired": true
+    },
+    {
+      "key": "server.pveAllowTribeWar",
+      "label": "PvE Allow Tribe War",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Rules",
+      "restartRequired": true
+    },
+    {
+      "key": "server.pveAllowTribeWarCancel",
+      "label": "PvE Allow Tribe War Cancel",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Rules",
+      "restartRequired": true
+    },
+    {
+      "key": "server.passiveDefensesDamageRiderlessDinos",
+      "label": "Passive Defenses Damage Riderless Dinos",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Rules",
+      "restartRequired": true
+    },
+    {
+      "key": "server.allowCustomRecipes",
+      "label": "Allow Custom Recipes",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Rules",
+      "restartRequired": true
+    },
+    {
+      "key": "server.maxDifficulty",
+      "label": "Max Difficulty",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "World",
+      "restartRequired": true
+    },
+    {
+      "key": "server.useCorpseLocator",
+      "label": "Use Corpse Locator",
+      "type": "Boolean",
+      "defaultValue": true,
+      "group": "Rules",
+      "restartRequired": true
+    },
+    {
+      "key": "server.allowUnlimitedRespecs",
+      "label": "Allow Unlimited Respecs",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Rules",
+      "restartRequired": true
+    },
+    {
+      "key": "server.disableStructurePlacementCollision",
+      "label": "Disable Structure Placement Collision",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Rules",
+      "restartRequired": true
+    },
+    {
+      "key": "server.allowSpeedLeveling",
+      "label": "Allow Speed Leveling",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Rules",
+      "restartRequired": true
+    },
+    {
+      "key": "server.allowFlyerSpeedLeveling",
+      "label": "Allow Flyer Speed Leveling",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Rules",
+      "restartRequired": true
+    },
+    {
+      "key": "server.preventDownloadSurvivors",
+      "label": "Prevent Survivor Downloads",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Transfers",
+      "restartRequired": true
+    },
+    {
+      "key": "server.preventDownloadItems",
+      "label": "Prevent Item Downloads",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Transfers",
+      "restartRequired": true
+    },
+    {
+      "key": "server.preventDownloadDinos",
+      "label": "Prevent Dino Downloads",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Transfers",
+      "restartRequired": true
+    },
+    {
+      "key": "server.preventUploadSurvivors",
+      "label": "Prevent Survivor Uploads",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Transfers",
+      "restartRequired": true
+    },
+    {
+      "key": "server.preventUploadItems",
+      "label": "Prevent Item Uploads",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Transfers",
+      "restartRequired": true
+    },
+    {
+      "key": "server.preventUploadDinos",
+      "label": "Prevent Dino Uploads",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Transfers",
+      "restartRequired": true
+    },
+    {
+      "key": "server.crossArkAllowForeignDinoDownloads",
+      "label": "Allow Foreign Dino Downloads",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Transfers",
+      "restartRequired": true
+    },
+    {
+      "key": "server.noTributeDownloads",
+      "label": "Disable Tribute Downloads",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Transfers",
+      "restartRequired": true
+    },
+    {
+      "key": "server.ignorePvpMountedWeaponryRestriction",
+      "label": "Ignore PvP Mounted Weaponry Restriction",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Transfers",
+      "restartRequired": true
+    },
+    {
+      "key": "server.enableCryopodNerf",
+      "label": "Enable Cryopod Nerf",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Cryopods",
+      "restartRequired": true
+    },
+    {
+      "key": "server.cryopodNerfDuration",
+      "label": "Cryopod Nerf Duration",
+      "type": "Number",
+      "defaultValue": 10,
+      "minimum": 0,
+      "group": "Cryopods",
+      "restartRequired": true,
+      "visibleWhen": {
+        "key": "server.enableCryopodNerf",
+        "isTruthy": true
+      }
+    },
+    {
+      "key": "server.cryopodNerfDamageMultiplier",
+      "label": "Cryopod Nerf Damage Multiplier",
+      "type": "Number",
+      "defaultValue": 0.01,
+      "minimum": 0,
+      "group": "Cryopods",
+      "restartRequired": true,
+      "visibleWhen": {
+        "key": "server.enableCryopodNerf",
+        "isTruthy": true
+      }
+    },
+    {
+      "key": "server.cryopodNerfIncomingDamageMultiplierPercent",
+      "label": "Cryopod Nerf Incoming Damage Percent",
+      "type": "Number",
+      "defaultValue": 0,
+      "minimum": 0,
+      "group": "Cryopods",
+      "restartRequired": true,
+      "visibleWhen": {
+        "key": "server.enableCryopodNerf",
+        "isTruthy": true
+      }
+    },
+    {
+      "key": "server.allowCryoFridgeOnSaddle",
+      "label": "Allow Cryofridge On Saddle",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Cryopods",
+      "restartRequired": true
+    },
+    {
+      "key": "server.disableCryopodEnemyCheck",
+      "label": "Disable Cryopod Enemy Check",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Cryopods",
+      "restartRequired": true
+    },
+    {
+      "key": "server.disableCryopodFridgeRequirement",
+      "label": "Disable Cryopod Fridge Requirement",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Cryopods",
+      "restartRequired": true
+    },
+    {
+      "key": "server.enableCryoSicknessPve",
+      "label": "Enable Cryo Sickness PvE",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Cryopods",
+      "restartRequired": true
+    },
+    {
+      "key": "server.cryopodFridgeCooldownTime",
+      "label": "Cryopod Fridge Cooldown Time",
+      "type": "Number",
+      "defaultValue": 90,
+      "minimum": 0,
+      "group": "Cryopods",
+      "restartRequired": true
+    },
+    {
+      "key": "server.forceGachaUnhappyInCaves",
+      "label": "Force Gacha Unhappy In Caves",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "ASA Content",
+      "restartRequired": true
+    },
+    {
+      "key": "server.worldBossKingKaijuSpawnTime",
+      "label": "King Kaiju Spawn Time",
+      "type": "Text",
+      "defaultValue": "15:00:00",
+      "description": "Time value written as WorldBossKingKaijuSpawnTime, for example 15:00:00.",
+      "group": "ASA Content",
+      "restartRequired": true
+    },
+    {
+      "key": "server.armadoggoDeathCooldown",
+      "label": "Armadoggo Death Cooldown",
+      "type": "Number",
+      "defaultValue": 3600,
+      "minimum": 0,
+      "group": "ASA Content",
+      "restartRequired": true
+    },
+    {
+      "key": "server.maxCosmoWeaponAmmo",
+      "label": "Max Cosmo Weapon Ammo",
+      "type": "Number",
+      "defaultValue": -1,
+      "group": "ASA Content",
+      "restartRequired": true
+    },
+    {
+      "key": "server.cosmoWeaponAmmoReloadAmount",
+      "label": "Cosmo Weapon Ammo Reload",
+      "type": "Number",
+      "defaultValue": -1,
+      "group": "ASA Content",
+      "restartRequired": true
+    },
+    {
+      "key": "battleye.enabled",
+      "label": "Enable BattlEye",
+      "type": "Boolean",
+      "defaultValue": true,
+      "description": "When disabled, WindowsGSH adds -NoBattlEye to the launch arguments.",
+      "group": "Launch",
+      "restartRequired": true
+    },
+    {
+      "key": "server.crossplay",
+      "label": "Enable Crossplay",
+      "type": "Boolean",
+      "defaultValue": false,
+      "description": "When enabled, WindowsGSH adds -ServerPlatform=ALL to the launch arguments.",
+      "group": "Launch",
+      "restartRequired": true
+    },
+    {
+      "key": "cluster.enabled",
+      "label": "Enable Cluster",
+      "type": "Boolean",
+      "defaultValue": false,
+      "description": "Enable ARK character/item/dino travel with other servers that use the same Cluster ID and shared cluster directory.",
+      "group": "Cluster",
+      "restartRequired": true
+    },
+    {
+      "key": "cluster.id",
+      "label": "Cluster ID",
+      "type": "Text",
+      "defaultValue": "WindowsGSHCluster",
+      "description": "Use the same Cluster ID on every server that should allow transfers between each other.",
+      "group": "Cluster",
+      "restartRequired": true,
+      "visibleWhen": {
+        "key": "cluster.enabled",
+        "isTruthy": true
+      }
+    },
+    {
+      "key": "cluster.directory",
+      "label": "Cluster Directory",
+      "type": "Text",
+      "defaultValue": "",
+      "description": "Shared folder used for cluster transfer data. Every server in the cluster must be able to access the same folder.",
+      "group": "Cluster",
+      "restartRequired": true,
+      "visibleWhen": {
+        "key": "cluster.enabled",
+        "isTruthy": true
+      }
+    },
+    {
+      "key": "cluster.altSaveDirectoryName",
+      "label": "Alt Save Directory Name",
+      "type": "Text",
+      "defaultValue": "",
+      "description": "Unique save directory name for this server/map, such as TheIsland or ScorchedEarth. Use a different value on each clustered server.",
+      "group": "Cluster",
+      "restartRequired": true,
+      "visibleWhen": {
+        "key": "cluster.enabled",
+        "isTruthy": true
+      }
+    },
+    {
+      "key": "steam.gslt",
+      "label": "Steam GSLT",
+      "type": "Password",
+      "defaultValue": "",
+      "group": "Steam",
+      "description": "Optional. Required by some Steam/Source servers.",
+      "restartRequired": true
+    },
+    {
+      "key": "rcon.password",
+      "label": "RCON Password",
+      "type": "Password",
+      "defaultValue": "",
+      "group": "RCON",
+      "description": "Optional. If blank, WindowsGSH uses the Admin Password for RCON.",
+      "visibleWhen": {
+        "key": "rcon.enabled",
+        "isTruthy": true
+      }
+    },
+    {
+      "key": "server.additionalArguments",
+      "label": "Additional Arguments",
+      "type": "CommandLine",
+      "defaultValue": "",
+      "group": "Launch",
+      "restartRequired": true
+    }
+  ],
+  "configFiles": [
+    "ShooterGame\\Saved\\Config\\WindowsServer\\GameUserSettings.ini",
+    "ShooterGame\\Saved\\Config\\WindowsServer\\Game.ini"
+  ],
+  "backupTargets": [
+    {
+      "key": "config",
+      "label": "Config",
+      "path": "ShooterGame\\Saved\\Config\\WindowsServer",
+      "type": "directory"
+    },
+    {
+      "key": "saves",
+      "label": "Saves",
+      "path": "ShooterGame\\Saved\\SavedArks",
+      "type": "directory"
+    }
+  ],
+  "addons": []
+}
