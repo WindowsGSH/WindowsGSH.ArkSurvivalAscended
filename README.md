@@ -30,7 +30,7 @@ Import `ArkSurvivalAscended.mod` directly, or import the repository root and let
 - Starts `ShooterGame/Binaries/Win64/ArkAscendedServer.exe`.
 - Writes `ShooterGame/Saved/Config/WindowsServer/GameUserSettings.ini`.
 - Writes `ShooterGame/Saved/Config/WindowsServer/Game.ini`.
-- Launches with the selected map, `?listen`, session name, bind IP, game port, max players, optional CurseForge mods, and extra arguments.
+- Launches with the selected map, `?listen`, session name, documented dash-style bind/port switches, max players, optional CurseForge mods, and extra arguments.
 - Reports online/offline status from the ARK server process because ASA does not reliably answer A2S queries.
 - Supports ARK/Source RCON when RCON is enabled and a password is configured.
 - Uses log-tail console mode and tails `ShooterGame/Saved/Logs/ShooterGame.log` into the WindowsGSH console window.
@@ -48,7 +48,7 @@ Import `ArkSurvivalAscended.mod` directly, or import the repository root and let
 - `server.map`: ASA map package, for example `TheIsland_WP`, `TheCenter_WP`, `ScorchedEarth_WP`, or `Aberration_WP`.
 - `network.port`: UDP game port, default `7777`.
 - `network.queryPort`: Steam/server-browser query port, default `27015`. WindowsGSH does not use this for ASA online/offline status.
-- `rcon.enabled`: writes `RCONEnabled=True` to `GameUserSettings.ini` and includes `?RCONEnabled=True?RCONPort=<port>` in the launch args preview and launch URL.
+- `rcon.enabled`: writes `RCONEnabled=True` to `GameUserSettings.ini` and includes `?RCONEnabled=True?RCONPort=<port>` in the launch args preview and launch command.
 - `rcon.port`: TCP RCON port, default `27020`.
 - `rcon.password`: optional RCON password. If blank, WindowsGSH uses `server.adminPassword` for RCON.
 - `server.mods`: comma-separated CurseForge mod IDs. WindowsGSH passes these as `-mods="id,id"`.
@@ -69,6 +69,16 @@ Import `ArkSurvivalAscended.mod` directly, or import the repository root and let
 - `cluster.directory`: shared cluster data folder. Every server in the cluster must be able to read and write this folder.
 - `cluster.altSaveDirectoryName`: unique save directory name for this server/map. Use a different value on each clustered server.
 - `server.additionalArguments`: extra command-line arguments.
+
+### Launch Port Arguments
+
+ASA can ignore URL-style game port settings such as `?Port=8000` and then bind its default port instead. WindowsGSH passes the game port with the documented command-line switch and keeps the query/RCON ports in the existing URL-style server options:
+
+```text
+?QueryPort=<query port>?RCONPort=<rcon port> -MULTIHOME=<bind ip> -port=<game port>
+```
+
+The ARK log and WindowsGSH app log should show these switches in the actual launch command line.
 
 ## Configuration Files
 
