@@ -1,7 +1,7 @@
 {
   "id": "ark-survival-ascended",
   "name": "Ark Survival Ascended Dedicated Server",
-  "version": "1.23",
+  "version": "1.24",
   "author": "Shenniko",
   "description": "WindowsGSH module for installing, configuring, launching, and backing up an ARK: Survival Ascended dedicated server.",
   "url": "https://github.com/WindowsGSH/WindowsGSH.ArkSurvivalAscended",
@@ -31,7 +31,7 @@
     "consoleStrategy": "LogTailOnly",
     "portIncrements": 2,
     "queryProtocol": "process",
-    "defaultArguments": "{server.map}?listen?SessionName={quote:server.name}?MaxPlayers={server.maxPlayers}{?rcon.enabled:?RCONEnabled=True}{?cluster.enabled:{?cluster.altSaveDirectoryName:?AltSaveDirectoryName={cluster.altSaveDirectoryName}}} -MultiHome={network.ip} -Port={network.port} -QueryPort={network.queryPort}{?rcon.enabled: -RCONPort={rcon.port}} {server.additionalArguments} -WinLiveMaxPlayers={server.maxPlayers}{?server.crossplay: -ServerPlatform=ALL}{?cluster.enabled: -clusterid={quote:cluster.id}{?cluster.directory: -ClusterDirOverride={quote:cluster.directory}}}",
+    "defaultArguments": "{server.map}?listen?SessionName={quote:server.name}?QueryPort={network.queryPort}?MaxPlayers={server.maxPlayers}{?rcon.enabled:?RCONEnabled=True?RCONPort={rcon.port}}{?cluster.enabled:{?cluster.altSaveDirectoryName:?AltSaveDirectoryName={cluster.altSaveDirectoryName}}} -MULTIHOME={network.ip} -port={network.port} {server.additionalArguments} -WinLiveMaxPlayers={server.maxPlayers}{?server.crossplay: -ServerPlatform=ALL}{?cluster.enabled: -clusterid={quote:cluster.id}{?cluster.directory: -ClusterDirOverride={quote:cluster.directory}}}",
     "logPath": "ShooterGame\\Saved\\Logs\\ShooterGame.log",
     "stop": {
       "strategy": "closeWindow",
