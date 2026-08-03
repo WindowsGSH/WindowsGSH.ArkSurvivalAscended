@@ -1,0 +1,9 @@
+bin/
+obj/
+release/
+*.user
+*.suo
+*.tmp
+*.log
+import.json
+*.Tests/
